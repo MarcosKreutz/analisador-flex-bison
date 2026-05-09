@@ -15,6 +15,13 @@ DIGITO_NAO_ZERO [1-9]
 DIGITO          [0-9]
 NUMERO_INTEIRO  {DIGITO_NAO_ZERO}{DIGITO}*
 
+/* Aluno 02: Identificadores e funcoes */
+LETRA_MAI       [A-Z]
+LETRA_MIN       [a-z]
+LETRA           [A-Za-z]
+ID_VALIDO       {LETRA_MAI}{LETRA}{2,}{LETRA_MIN}
+FUNC_VALIDA     _{ID_VALIDO}
+
 %%
 
 "elgio"     { printf("Linha %d: Palavra Reservada: %s\n", yylineno, yytext); }
@@ -52,7 +59,33 @@ NUMERO_INTEIRO  {DIGITO_NAO_ZERO}{DIGITO}*
 {NUMERO_INTEIRO} { printf("Linha %d: Numero Inteiro: %s\n", yylineno, yytext); }
 
 /* Aluno 02: Identificadores e nomes de funcoes. (Espaço reservado para seu colega) */
+/* Funcao valida: _ + mesma regra do identificador */
+{FUNC_VALIDA} {
+    printf("Linha %d: Nome de Funcao: %s\n", yylineno, yytext);
+}
 
+/* Identificador valido: maiuscula, so letras, minuscula no fim, min 4 chars */
+{ID_VALIDO} {
+    printf("Linha %d: Identificador: %s\n", yylineno, yytext);
+}
+
+/* Identificador malformado: comeca com maiuscula mas viola alguma regra */
+{LETRA_MAI}{LETRA}[A-Za-z0-9_]+ {
+    printf("Linha %d: [ERRO] Identificador malformado: %s\n", yylineno, yytext);
+    totalErros++;
+}
+
+/* Letra maiuscula isolada: nao forma identificador valido */
+{LETRA_MAI} {
+    printf("Linha %d: [ERRO] Identificador malformado: %s\n", yylineno, yytext);
+    totalErros++;
+}
+
+/* Funcao malformada: comeca com _ mas viola as regras de identificador */
+_{LETRA}{LETRA}[A-Za-z0-9_]* {
+    printf("Linha %d: [ERRO] Nome de funcao malformado: %s\n", yylineno, yytext);
+    totalErros++;
+}
 
 /* Aluno 01: Tratamento de espacos e erros basicos */
 [ \t\r\n]+  { /* ignora */ }
