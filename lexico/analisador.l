@@ -2,20 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Aluno 01: Definições de Cabeçalho e Variáveis Globais */
+
 int totalErros = 0;
 %}
 
 %option noyywrap
 %option yylineno
 
-/* Aluno 02 e 03: Definicoes de Regex (Macros). */
-/* Aluno 03: Inteiros - Começa com 1-9, seguido de zero ou mais dígitos */
+
 DIGITO_NAO_ZERO [1-9]
 DIGITO          [0-9]
 NUMERO_INTEIRO  {DIGITO_NAO_ZERO}{DIGITO}*
 
-/* Aluno 02: Identificadores e funcoes */
+
 LETRA_MAI       [A-Z]
 LETRA_MIN       [a-z]
 LETRA           [A-Za-z]
@@ -27,7 +26,7 @@ FUNC_VALIDA     _{ID_VALIDO}
 "elgio"     { printf("Linha %d: Palavra Reservada: %s\n", yylineno, yytext); }
 "."         { printf("Linha %d: Fim de Comando: %s\n", yylineno, yytext); }
 
-/* Aluno 03: Outras palavras reservadas, numeros e operadores */
+
 
 "numero"    { printf("Linha %d: Palavra Reservada: %s\n", yylineno, yytext); }
 "NADA"      { printf("Linha %d: Constante Zero: %s\n", yylineno, yytext); }
@@ -58,18 +57,17 @@ FUNC_VALIDA     _{ID_VALIDO}
 
 {NUMERO_INTEIRO} { printf("Linha %d: Numero Inteiro: %s\n", yylineno, yytext); }
 
-/* Aluno 02: Identificadores e nomes de funcoes. (Espaço reservado para seu colega) */
-/* Funcao valida: _ + mesma regra do identificador */
+
 {FUNC_VALIDA} {
     printf("Linha %d: Nome de Funcao: %s\n", yylineno, yytext);
 }
 
-/* Identificador valido: maiuscula, so letras, minuscula no fim, min 4 chars */
+
 {ID_VALIDO} {
     printf("Linha %d: Identificador: %s\n", yylineno, yytext);
 }
 
-/* Identificador malformado: comeca com maiuscula mas viola alguma regra */
+
 {LETRA_MAI}{LETRA}[A-Za-z0-9_]+ {
     printf("Linha %d: [ERRO] Identificador malformado: %s\n", yylineno, yytext);
     totalErros++;
@@ -81,16 +79,16 @@ FUNC_VALIDA     _{ID_VALIDO}
     totalErros++;
 }
 
-/* Funcao malformada: comeca com _ mas viola as regras de identificador */
+
 _{LETRA}{LETRA}[A-Za-z0-9_]* {
     printf("Linha %d: [ERRO] Nome de funcao malformado: %s\n", yylineno, yytext);
     totalErros++;
 }
 
-/* Aluno 01: Tratamento de espacos e erros basicos */
+
 [ \t\r\n]+  { /* ignora */ }
 
-"*"[^\n]* { /* comentário de linha - ignora */ }
+"*"[^\n]* { /* comentario de linha - ignora */ }
 
 .           {
                 printf("Linha %d: [ERRO LEXICO] Caractere invalido: %s\n", yylineno, yytext);
@@ -99,7 +97,7 @@ _{LETRA}{LETRA}[A-Za-z0-9_]* {
 
 %%
 
-/* Aluno 01: Função Principal (Main) */
+
 int main(int argc, char **argv) {
     printf("--- ANALISADOR ELGOL ATIVO ---\n\n");
 
