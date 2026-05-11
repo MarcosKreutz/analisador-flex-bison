@@ -73,7 +73,7 @@ FUNC_VALIDA     _{ID_VALIDO}
     totalErros++;
 }
 
-/* Letra maiuscula isolada: nao forma identificador valido */
+
 {LETRA_MAI} {
     printf("Linha %d: [ERRO] Identificador malformado: %s\n", yylineno, yytext);
     totalErros++;
