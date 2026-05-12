@@ -55,6 +55,10 @@ FUNC_VALIDA     _{ID_VALIDO}
 "/"         { printf("Linha %d: Operador: %s\n", yylineno, yytext); }
 "%"         { printf("Linha %d: Operador: %s\n", yylineno, yytext); }
 
+"("         { printf("Linha %d: Abre Parentese: %s\n", yylineno, yytext); }
+")"         { printf("Linha %d: Fecha Parentese: %s\n", yylineno, yytext); }
+","         { printf("Linha %d: Virgula: %s\n", yylineno, yytext); }
+
 {NUMERO_INTEIRO} { printf("Linha %d: Numero Inteiro: %s\n", yylineno, yytext); }
 
 
@@ -89,6 +93,11 @@ _{LETRA}{LETRA}[A-Za-z0-9_]* {
 [ \t\r\n]+  { /* ignora */ }
 
 "*"[^\n]* { /* comentario de linha - ignora */ }
+
+[a-z][a-zA-Z0-9_]* {
+                printf("Linha %d: [ERRO LEXICO] Token invalido: %s\n", yylineno, yytext);
+                totalErros++;
+            }
 
 .           {
                 printf("Linha %d: [ERRO LEXICO] Caractere invalido: %s\n", yylineno, yytext);
