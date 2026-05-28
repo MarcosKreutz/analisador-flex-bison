@@ -1,6 +1,6 @@
 all:
 	flex analisador.l
-	gcc lex.yy.c -o analisador
+	gcc lex.yy.c -o analisador -lfl
 
 clean:
 	rm -f lex.yy.c analisador
